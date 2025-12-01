@@ -97,23 +97,6 @@ Ouvrez http://localhost:8080 dans votre navigateur.
 mvn clean install
 ```
 
-## 📁 Structure du Repository
-
-```
-kafka-training/
-├── README.md                          # Ce fichier
-├── pom.xml                           # Configuration Maven parent
-├── jour1/                            # Jour 1 - Fondamentaux
-│   ├── README.md                     # Programme du jour 1
-│   └── exercice1-explorer-cluster/   # Exercice d'exploration
-│       ├── docker-compose.yml        # Infrastructure Kafka
-│       ├── Makefile                  # Commandes utiles
-│       ├── infrastructure/           # Scripts de provisioning
-│       └── README.md                 # Instructions de l'exercice
-├── jour2/                            # Jour 2 - Approfondissement (à venir)
-└── jour3/                            # Jour 3 - Avancé (à venir)
-```
-
 ## 🎓 Approche Pédagogique
 
 Cette formation utilise une **approche pratique et progressive**:
