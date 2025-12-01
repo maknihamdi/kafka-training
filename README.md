@@ -207,16 +207,6 @@ lsof -i :8081
    ```
 4. Préparer des exemples supplémentaires si nécessaire
 
-### Timing suggéré par jour
-
-**Jour 1 (3-4h)**
-- 09:00 - 09:15 : Introduction générale Kafka
-- 09:15 - 10:00 : Exercice 1 - Exploration
-- 10:00 - 10:30 : Débriefing et théorie
-- 10:30 - 10:45 : Pause
-- 10:45 - 12:30 : Exercices suivants
-
-**Jours 2 et 3** *(À définir)*
 
 ## 📝 Licence
 
