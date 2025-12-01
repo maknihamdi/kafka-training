@@ -206,16 +206,107 @@ Voir le README de l'exercice pour les instructions détaillées.
 
 ---
 
+## Exercice 4 - Producer et Consumer Spring Boot
+
+**Durée:** 90 minutes
+
+### Objectifs
+- Créer un Producer Kafka avec Spring Boot
+- Créer un Consumer Kafka standalone (sans consumer group)
+- Créer un Consumer Kafka scalable (avec consumer group)
+- Produire des messages via une API REST
+- Comprendre la différence entre consommation standalone et avec consumer group
+- Observer le partitionnement avec des clés
+- Tester la consommation parallèle avec plusieurs instances
+
+### Approche pédagogique
+Cet exercice est **progressif et pratique**. Les participants créent d'abord un producer Spring Boot avec API REST, puis deux types de consumers pour comprendre les différences entre la consommation standalone et avec consumer group. L'exercice met l'accent sur la scalabilité et le rebalancing automatique.
+
+### Notions approfondies
+À travers cet exercice, les participants vont approfondir:
+- **Producer Spring Boot**:
+  - KafkaTemplate pour envoyer des messages
+  - Sérialisation JSON
+  - API REST pour production de messages
+  - Callback pour gérer succès/échecs
+  - Configuration des timeouts (MAX_BLOCK_MS_CONFIG)
+- **Consumer Standalone** (sans consumer group):
+  - KafkaConsumer API native
+  - Assignation manuelle des partitions avec `assign()`
+  - Pas de group.id requis
+  - Lecture de toutes les partitions par une seule instance
+  - Cas d'usage: batch, export, monitoring
+- **Scalable Consumer** (avec consumer group):
+  - @KafkaListener avec groupId
+  - ConsumerFactory Spring
+  - Distribution automatique des partitions
+  - Rebalancing automatique
+  - Scalabilité horizontale (multiples instances)
+  - Tolérance aux pannes
+- **Partitionnement**:
+  - Rôle de la clé dans le partitionnement
+  - Hash de la clé pour déterminer la partition
+  - Messages avec même clé → même partition
+  - Messages sans clé → distribution round-robin ou sticky
+- **Désérialisation JSON**:
+  - JsonDeserializer configuration
+  - Trusted packages pour la sécurité
+  - USE_TYPE_INFO_HEADERS pour ignorer les headers de type
+
+### Contenu de l'exercice
+L'exercice est divisé en 5 parties:
+1. **Démarrage et Configuration** - Kafka cluster, création topic, compilation modules
+2. **Producer (API REST)** - Créer et tester le producer Spring Boot
+3. **Consumer Standalone** - Consumer sans consumer group (assign manuel)
+4. **Scalable Consumer** - Consumer avec consumer group (@KafkaListener)
+5. **Analyse et Comparaison** - Tableau comparatif, vérification consumer groups
+
+### Architecture des modules
+```
+exercice4-producer-consumer/
+├── producer/              # API REST pour produire des messages
+├── consumer/              # Consumer standalone (sans consumer group)
+└── scalable-consumer/     # Consumer scalable (avec consumer group)
+```
+
+### Livrables
+Les participants doivent:
+- Créer un Producer Spring Boot avec KafkaTemplate
+- Produire des messages via une API REST
+- Observer le partitionnement avec des clés
+- Créer un Consumer standalone utilisant `assign()`
+- Créer un Consumer scalable utilisant @KafkaListener
+- Lancer plusieurs instances du scalable consumer
+- Observer le rebalancing automatique des partitions
+- Tester la tolérance aux pannes
+- Comparer les deux approches de consommation
+- Analyser les consumer groups avec kafka-consumer-groups
+
+### Déroulement
+1. **15 min** - Démarrage Kafka, création topic, compilation
+2. **20 min** - Création et test du Producer
+3. **20 min** - Création et test du Consumer Standalone
+4. **25 min** - Création et test du Scalable Consumer (2 instances)
+5. **10 min** - Analyse et comparaison des deux approches
+
+### Accès à l'exercice
+📁 Dossier: `jour1/exercice4-producer-consumer/`
+
+Voir le README de l'exercice pour les instructions détaillées.
+
+---
+
 ## 📝 QCM - Validation des Connaissances
 
 **Durée:** 10 minutes + 15 minutes de correction
 
-Après avoir complété les 3 exercices, un QCM de 5 questions permet de valider la compréhension des concepts fondamentaux:
+Après avoir complété les 4 exercices, un QCM de 5 questions permet de valider la compréhension des concepts fondamentaux:
 - Partitions
 - Offsets
 - Segments
 - Politiques de rétention
 - Log compaction
+- Producer et Consumer
 
 ---
 
@@ -367,3 +458,78 @@ docker exec kafka kafka-topics --create \
 | Production Standard | 3 | 2 | 1 broker | Équilibre disponibilité/durabilité |
 | Production Critique | 3 | 3 | Aucune (écriture) | Données critiques, aucune perte acceptable |
 | Multi-DC | 5+ | 3 | 2 brokers | Distribution géographique |
+
+### Points clés à aborder après l'exercice 4
+
+**Producer Spring Boot**
+- KafkaTemplate comme abstraction pour envoyer des messages
+- Sérialisation JSON automatique avec JsonSerializer
+- Importance de la clé pour garantir l'ordre des messages par entité
+- Configuration des timeouts (MAX_BLOCK_MS_CONFIG) pour éviter les boucles infinies
+- Callback pour gérer les succès et échecs d'envoi
+
+**Partitionnement**
+- Formule: `partition = hash(key) % nombre_partitions`
+- Messages avec même clé → toujours la même partition → ordre garanti
+- Messages sans clé → distribution round-robin ou sticky partitioner
+- Impact sur la scalabilité: plus de partitions = plus de parallélisme
+
+**Consumer Standalone vs Consumer Group**
+
+| Aspect | Consumer Standalone | Consumer Group |
+|--------|---------------------|----------------|
+| **API Kafka** | `consumer.assign()` | `consumer.subscribe()` |
+| **Spring** | KafkaConsumer bean + Thread | @KafkaListener |
+| **group.id** | Non requis | Obligatoire |
+| **Partitions** | Toutes assignées manuellement | Distribution automatique |
+| **Rebalancing** | Aucun | Automatique |
+| **Scalabilité** | Non (1 instance unique) | Oui (multiples instances) |
+| **Tolérance pannes** | Non | Oui (rebalancing) |
+| **Cas d'usage** | Batch, export, monitoring, debug | Production, haute disponibilité |
+
+**Consumer Group - Concepts clés**
+- **group.id**: Identifie le groupe de consumers
+- **Rebalancing**: Redistribution automatique des partitions entre les membres du groupe
+  - Se produit lors de l'ajout/suppression d'un consumer
+  - Se produit lors de l'ajout/suppression de partitions
+  - Court temps d'indisponibilité pendant le rebalancing
+- **Garanties**: Chaque message est consommé par **une seule instance** du groupe
+- **Scalabilité**: Ajoutez des instances pour augmenter le débit
+- **Limitation**: Nombre max d'instances = nombre de partitions (au-delà, certaines instances sont inactives)
+
+**Désérialisation JSON**
+- **trusted.packages**: Sécurité pour éviter la désérialisation d'objets malveillants
+  - En production: spécifier les packages autorisés explicitement
+  - En dev: `addTrustedPackages("*")` acceptable
+- **USE_TYPE_INFO_HEADERS**:
+  - `false`: ignore les headers de type du producer (recommandé si producer/consumer ont des packages différents)
+  - `true`: utilise les headers pour déterminer le type exact (utile pour polymorphisme)
+
+**Offset Management**
+- **Auto-commit**: Offsets committé automatiquement à intervalle régulier
+  - Avantage: simplicité
+  - Inconvénient: risque de perte de messages en cas de crash
+- **Manual commit**: Contrôle fin du moment du commit
+  - `ack.acknowledge()` dans @KafkaListener
+  - Garantit "at least once" processing
+  - Nécessite idempotence dans le traitement
+
+**Consumer Group Commands**
+```bash
+# Lister tous les consumer groups
+kafka-consumer-groups --bootstrap-server localhost:9092 --list
+
+# Détails d'un consumer group (partitions, offsets, lag)
+kafka-consumer-groups --bootstrap-server localhost:9092 --describe --group <group-id>
+
+# Réinitialiser les offsets
+kafka-consumer-groups --bootstrap-server localhost:9092 --group <group-id> --reset-offsets --to-earliest --topic <topic> --execute
+```
+
+**Bonnes pratiques**
+1. **Toujours utiliser des clés** pour garantir l'ordre des messages d'une même entité
+2. **Consumer groups en production**: Ne jamais utiliser consumer standalone en production
+3. **Idempotence**: Gérer les doublons (at-least-once delivery)
+4. **Error handling**: Ne pas bloquer le consumer avec des exceptions non gérées
+5. **Monitoring**: Surveiller le lag des consumer groups
+6. **Rebalancing**: Minimiser la durée de traitement pour éviter les timeouts

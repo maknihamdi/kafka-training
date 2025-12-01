@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: scalable-consumer-instance2
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: message-consumer-group  # Même group-id pour partager les partitions
+
+kafka:
+  consumer:
+    topic: messages
+
+logging:
+  level:
+    com.kafka.training: INFO
+    org.apache.kafka: WARN
+    org.springframework.kafka: INFO

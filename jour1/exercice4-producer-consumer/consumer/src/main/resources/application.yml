@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: kafka-consumer
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    # NOTE: Pas de consumer.group-id défini
+    # Le consumer va consommer SANS groupe (consumer standalone)
+
+kafka:
+  consumer:
+    topic: messages
+    partitions: 4
+
+logging:
+  level:
+    com.kafka.training: DEBUG
+    org.apache.kafka: INFO

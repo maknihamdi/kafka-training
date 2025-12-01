@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>com.formation</groupId>
-        <artifactId>kafka-training</artifactId>
+        <artifactId>jour1</artifactId>
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>jour1</artifactId>
+    <artifactId>exercice4-producer-consumer</artifactId>
     <packaging>pom</packaging>
 
-    <name>Jour 1 - Fondamentaux Kafka</name>
-
     <modules>
-        <module>exercice4-producer-consumer</module>
+        <module>producer</module>
+        <module>consumer</module>
+        <module>scalable-consumer</module>
     </modules>
+
 </project>
