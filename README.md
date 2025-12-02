@@ -34,15 +34,44 @@ Ce repository contient l'ensemble des exercices et ressources pour une **formati
 - Kafka UI
 - Schema Registry
 
-### Jour 2 - Approfondissement et Patterns *(À venir)*
+### [Jour 2 - Kafka Connect et Stream Processing](./jour2/)
 
 **Objectifs:**
-- Créer des producers et consumers avec Spring Boot
-- Maîtriser la configuration avancée
-- Comprendre la sérialisation/désérialisation
-- Implémenter des patterns Kafka courants
+- Maîtriser Kafka Connect (Source et Sink Connectors)
+- Utiliser ksqlDB pour le stream processing SQL
+- Appliquer des transformations avec SMTs (Single Message Transforms)
+- Créer des streams et tables avec ksqlDB
+- Implémenter des agrégations et fenêtres temporelles
+- Comprendre les topics compactés
 
-**Contenu:** *(En cours de préparation)*
+**Contenu:**
+
+#### [Exercice 1 - Kafka Connect : Source et Sink Connectors](./jour2/exercice1-kafka-connect/)
+- Déployer un cluster Kafka Connect
+- Créer un JDBC Source Connector (PostgreSQL → Kafka)
+- Créer un JDBC Sink Connector (Kafka → PostgreSQL)
+- Appliquer des transformations (SMTs)
+- Pipeline complet: DB → Topic → DB
+
+**Technologies:**
+- Kafka Connect avec JDBC Connector
+- PostgreSQL
+- Kafka UI avec support Kafka Connect
+- SMTs (InsertField, ReplaceField, MaskField, etc.)
+
+#### [Exercice 2 - ksqlDB : Stream Processing SQL](./jour2/exercice2-ksqldb/)
+- Créer des streams pour filtrer et transformer
+- Créer des tables avec agrégations
+- Implémenter le windowing (fenêtres temporelles)
+- Joindre streams et tables
+- Utiliser des topics compactés
+
+**Technologies:**
+- ksqlDB Server et CLI
+- Kafka UI avec support ksqlDB
+- STREAMS (flux immuables)
+- TABLES (états avec topics compactés)
+- Windowing (TUMBLING, HOPPING, SESSION)
 
 ### Jour 3 - Notions Avancées *(À venir)*
 
