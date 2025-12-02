@@ -36,7 +36,7 @@ services:
   ksqldb-server:
     image: confluentinc/ksqldb-server:0.29.0
     container_name: ksqldb-server
-    platform: linux/amd64
+    #platform: linux/amd64 # pour mac arm
     depends_on:
       kafka:
         condition: service_healthy
@@ -64,7 +64,7 @@ services:
   ksqldb-cli:
     image: confluentinc/ksqldb-cli:0.29.0
     container_name: ksqldb-cli
-    platform: linux/amd64
+    #platform: linux/amd64 # pour mac arm
     entrypoint: /bin/sh
     tty: true
     volumes:
