@@ -8,6 +8,11 @@
     <file url="file://$PROJECT_DIR$/jour1/exercice4-producer-consumer/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/jour1/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/jour1/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/jour2/exercice3-kafka-streams/common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/jour2/exercice3-kafka-streams/producer/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/jour2/exercice3-kafka-streams/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/jour2/exercice3-kafka-streams/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/jour2/exercice3-kafka-streams/streams/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
   </component>

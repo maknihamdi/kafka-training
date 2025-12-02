@@ -15,6 +15,7 @@
 
     <modules>
         <module>jour1</module>
+        <module>jour2/exercice3-kafka-streams</module>
     </modules>
 
     <parent>

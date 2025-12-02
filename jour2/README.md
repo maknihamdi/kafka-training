@@ -2,16 +2,19 @@
 
 ## 🎯 Objectifs du Jour 2
 
-Ce deuxième jour se concentre sur deux outils essentiels de l'écosystème Kafka:
+Ce deuxième jour se concentre sur trois outils essentiels de l'écosystème Kafka:
 - **Kafka Connect** - Pour l'intégration de données avec des systèmes externes
 - **ksqlDB** - Pour le traitement en temps réel avec SQL
+- **Kafka Streams** - Pour le stream processing avec Java/Spring Boot
 
 À la fin de ce jour, vous serez capables de:
 - Créer des pipelines d'intégration de données avec Kafka Connect
 - Transformer les données à la volée avec les SMTs
 - Utiliser ksqlDB pour filtrer, transformer et agréger des données
+- Développer des applications Kafka Streams avec Spring Boot
 - Comprendre et utiliser les topics compactés
-- Implémenter des fenêtres temporelles pour l'analyse en temps réel
+- Implémenter des fenêtres temporelles et des agrégations
+- Faire des jointures entre streams et tables
 
 ## 📚 Contenu
 
@@ -105,8 +108,66 @@ Topic source (user_events)
 #### Technologies
 - ksqlDB Server et CLI
 - Kafka UI avec support ksqlDB
-- PostgreSQL (source de données)
-- Kafka Connect (alimenter les données source)
+- Shell script pour génération de données
+
+---
+
+### [Exercice 3 - Kafka Streams avec Spring Boot](./exercice3-kafka-streams/)
+
+**Durée estimée:** 3-4 heures
+
+#### Objectifs
+- Comprendre les concepts de Kafka Streams
+- Utiliser l'API Admin de Kafka pour créer des topics
+- Créer une pipeline de stream processing avec Spring Boot
+- Manipuler KStream et KTable
+- Faire des jointures entre streams et tables
+- Utiliser des topics compactés pour les données de référence
+- Visualiser la topologie Kafka Streams
+
+#### Ce que vous allez construire
+
+```
+Producer (Spring Boot + API Admin)
+    ↓
+    ├─> user-events (topic normal)
+    └─> user-profiles (topic compacté)
+
+Kafka Streams (Spring Boot)
+    ↓
+    Filtre, Transformations, Agrégations
+    ↓
+    Jointures avec KTable
+    ↓
+    Topics de sortie enrichis
+```
+
+#### Compétences acquises
+- **API Admin Kafka:**
+  - Créer des topics programmatiquement
+  - Configurer le compactage
+  - Gérer les partitions
+
+- **Kafka Streams:**
+  - KStream vs KTable vs GlobalKTable
+  - Transformations (filter, map, flatMap)
+  - Agrégations (count, sum, aggregate)
+  - Fenêtres temporelles (tumbling, hopping)
+  - Jointures Stream-Table
+  - Visualiser la topologie
+
+- **Spring Boot:**
+  - Configuration Kafka Streams
+  - Serdes JSON personnalisés
+  - Intégration avec Spring Kafka
+  - REST API pour injection de données
+
+#### Technologies
+- Spring Boot 3.2
+- Spring Kafka & Kafka Streams
+- Maven multi-modules
+- Kafka UI
+- Docker Compose
 
 ---
 
@@ -129,11 +190,26 @@ Ouvrez http://localhost:8080 pour Kafka UI.
 ```bash
 cd jour2/exercice2-ksqldb
 make start
-make create-source
+make generate
+make ksql-setup
 make ksql
 ```
 
 Dans le CLI ksqlDB, commencez à créer vos streams et tables!
+
+### Exercice 3 - Kafka Streams
+
+```bash
+cd jour2/exercice3-kafka-streams
+make start
+make build
+make run-producer   # Terminal 1
+make run-streams    # Terminal 2
+make init-data
+make generate
+```
+
+Observez le traitement en temps réel dans les logs!
 
 ---
 
