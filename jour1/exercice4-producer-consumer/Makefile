@@ -10,7 +10,7 @@ help: ## Afficher l'aide
 
 start: ## Démarrer le cluster Kafka
 	@echo "🚀 Démarrage du cluster Kafka..."
-	docker-compose up -d
+	docker compose up -d
 	@echo "✅ Cluster Kafka démarré!"
 	@echo ""
 	@echo "⏳ Attente de l'initialisation des topics..."
@@ -24,18 +24,18 @@ start: ## Démarrer le cluster Kafka
 
 stop: ## Arrêter le cluster Kafka
 	@echo "🛑 Arrêt du cluster Kafka..."
-	docker-compose down
+	docker compose down
 	@echo "✅ Cluster arrêté!"
 
 restart: stop start ## Redémarrer le cluster Kafka
 
 clean: ## Supprimer les volumes et tout nettoyer
 	@echo "🧹 Nettoyage complet..."
-	docker-compose down -v
+	docker compose down -v
 	@echo "✅ Nettoyage terminé!"
 
 logs: ## Afficher les logs de Kafka
-	docker-compose logs -f kafka
+	docker compose logs -f kafka
 
 ui: ## Ouvrir Kafka UI dans le navigateur
 	@echo "🌐 Ouverture de Kafka UI..."
@@ -45,7 +45,7 @@ ui: ## Ouvrir Kafka UI dans le navigateur
 status: ## Afficher le statut du cluster
 	@echo "📊 Statut du cluster Kafka:"
 	@echo ""
-	@docker-compose ps
+	@docker compose ps
 	@echo ""
 	@echo "📋 Topics disponibles:"
 	@docker exec kafka kafka-topics --bootstrap-server localhost:9092 --list 2>/dev/null || echo "⚠️  Kafka n'est pas encore prêt"

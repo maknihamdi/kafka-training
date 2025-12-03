@@ -33,7 +33,7 @@ help:
 
 start:
 	@echo "🚀 Démarrage de Kafka..."
-	docker-compose up -d
+	docker compose up -d
 	@echo "⏳ Attente du démarrage (30s)..."
 	@sleep 30
 	@echo "✅ Infrastructure démarrée!"
@@ -53,19 +53,19 @@ start:
 
 stop:
 	@echo "🛑 Arrêt des services..."
-	docker-compose down
+	docker compose down
 
 clean:
 	@echo "🧹 Nettoyage complet..."
-	docker-compose down -v
+	docker compose down -v
 	@echo "✅ Nettoyage terminé!"
 
 logs:
-	docker-compose logs -f
+	docker compose logs -f
 
 status:
 	@echo "📊 Statut des services:"
-	@docker-compose ps
+	@docker compose ps
 
 build:
 	@echo "🔨 Compilation des projets Maven..."

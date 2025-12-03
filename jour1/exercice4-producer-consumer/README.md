@@ -53,7 +53,7 @@
 
 ```bash
 cd jour1/exercice4-producer-consumer
-docker-compose up -d
+docker compose up -d
 ```
 
 Vérifiez que Kafka est démarré:
@@ -486,13 +486,13 @@ Ouvrez http://localhost:8080:
 ### Arrêter Kafka
 
 ```bash
-docker-compose down
+docker compose down
 ```
 
 ### Nettoyage complet (avec suppression des volumes)
 
 ```bash
-docker-compose down -v
+docker compose down -v
 ```
 
 ---

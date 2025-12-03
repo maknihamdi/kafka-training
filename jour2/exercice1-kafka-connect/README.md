@@ -67,7 +67,7 @@ make start
 Ou directement avec docker-compose:
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 **Services démarrés:**

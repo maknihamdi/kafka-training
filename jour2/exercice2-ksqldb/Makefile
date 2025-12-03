@@ -23,7 +23,7 @@ help:
 
 start:
 	@echo "🚀 Démarrage de l'infrastructure ksqlDB..."
-	docker-compose up -d
+	docker compose up -d
 	@echo "⏳ Attente du démarrage complet (60s)..."
 	@sleep 60
 	@echo "✅ Infrastructure démarrée!"
@@ -39,19 +39,19 @@ start:
 
 stop:
 	@echo "🛑 Arrêt de tous les services..."
-	docker-compose down
+	docker compose down
 
 clean:
 	@echo "🧹 Nettoyage complet..."
-	docker-compose down -v
+	docker compose down -v
 	@echo "✅ Nettoyage terminé!"
 
 logs:
-	docker-compose logs -f
+	docker compose logs -f
 
 status:
 	@echo "📊 Statut des services:"
-	@docker-compose ps
+	@docker compose ps
 	@echo ""
 	@echo "🔷 ksqlDB Server:"
 	@curl -s http://localhost:8088/info | jq . 2>/dev/null || echo "❌ ksqlDB non disponible"

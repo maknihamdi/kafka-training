@@ -10,7 +10,7 @@ help: ## Afficher l'aide
 
 start: ## Démarrer le cluster Kafka (3 brokers)
 	@echo "🚀 Démarrage du cluster Kafka (3 brokers)..."
-	docker-compose up -d
+	docker compose up -d
 	@echo "✅ Cluster Kafka démarré!"
 	@echo ""
 	@echo "⏳ Attente du démarrage complet (30 secondes)..."
@@ -24,21 +24,21 @@ start: ## Démarrer le cluster Kafka (3 brokers)
 
 stop: ## Arrêter le cluster Kafka
 	@echo "🛑 Arrêt du cluster Kafka..."
-	docker-compose down
+	docker compose down
 	@echo "✅ Cluster arrêté!"
 
 restart: stop start ## Redémarrer le cluster Kafka
 
 clean: ## Supprimer les volumes et tout nettoyer
 	@echo "🧹 Nettoyage complet..."
-	docker-compose down -v
+	docker compose down -v
 	@echo "✅ Nettoyage terminé!"
 
 logs: ## Afficher les logs de tous les brokers
-	docker-compose logs -f kafka-1 kafka-2 kafka-3
+	docker compose logs -f kafka-1 kafka-2 kafka-3
 
 logs-all: ## Afficher tous les logs (brokers + UI)
-	docker-compose logs -f
+	docker compose logs -f
 
 ui: ## Ouvrir Kafka UI dans le navigateur
 	@echo "🌐 Ouverture de Kafka UI..."
@@ -48,7 +48,7 @@ ui: ## Ouvrir Kafka UI dans le navigateur
 status: ## Afficher le statut du cluster
 	@echo "📊 Statut du cluster Kafka:"
 	@echo ""
-	@docker-compose ps
+	@docker compose ps
 	@echo ""
 	@echo "📋 Topics disponibles:"
 	@docker exec kafka-1 kafka-topics --bootstrap-server localhost:9092 --list 2>/dev/null || echo "⚠️  Kafka n'est pas encore prêt ou aucun topic créé"
@@ -67,30 +67,30 @@ shell-3: ## Ouvrir un shell dans kafka-3
 
 stop-broker-1: ## Arrêter kafka-1 (pour tester la résilience)
 	@echo "🛑 Arrêt de kafka-1..."
-	docker-compose stop kafka-1
+	docker compose stop kafka-1
 	@echo "✅ kafka-1 arrêté!"
 
 stop-broker-2: ## Arrêter kafka-2 (pour tester la résilience)
 	@echo "🛑 Arrêt de kafka-2..."
-	docker-compose stop kafka-2
+	docker compose stop kafka-2
 	@echo "✅ kafka-2 arrêté!"
 
 stop-broker-3: ## Arrêter kafka-3 (pour tester la résilience)
 	@echo "🛑 Arrêt de kafka-3..."
-	docker-compose stop kafka-3
+	docker compose stop kafka-3
 	@echo "✅ kafka-3 arrêté!"
 
 start-broker-1: ## Redémarrer kafka-1
 	@echo "🚀 Redémarrage de kafka-1..."
-	docker-compose start kafka-1
+	docker compose start kafka-1
 	@echo "✅ kafka-1 redémarré!"
 
 start-broker-2: ## Redémarrer kafka-2
 	@echo "🚀 Redémarrage de kafka-2..."
-	docker-compose start kafka-2
+	docker compose start kafka-2
 	@echo "✅ kafka-2 redémarré!"
 
 start-broker-3: ## Redémarrer kafka-3
 	@echo "🚀 Redémarrage de kafka-3..."
-	docker-compose start kafka-3
+	docker compose start kafka-3
 	@echo "✅ kafka-3 redémarré!"

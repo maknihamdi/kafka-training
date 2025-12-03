@@ -232,7 +232,7 @@ lsof -i :8081
 2. Vérifier que Docker et Docker Compose fonctionnent
 3. Pré-télécharger les images Docker:
    ```bash
-   docker-compose pull
+   docker compose pull
    ```
 4. Préparer des exemples supplémentaires si nécessaire
 

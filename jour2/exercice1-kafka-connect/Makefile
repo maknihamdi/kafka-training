@@ -26,7 +26,7 @@ help:
 
 start:
 	@echo "🚀 Démarrage de l'infrastructure Kafka Connect..."
-	docker-compose up -d
+	docker compose up -d
 	@echo "⏳ Attente du démarrage complet (90s)..."
 	@sleep 90
 	@echo "✅ Infrastructure démarrée!"
@@ -36,19 +36,19 @@ start:
 
 stop:
 	@echo "🛑 Arrêt de tous les services..."
-	docker-compose down
+	docker compose down
 
 clean:
 	@echo "🧹 Nettoyage complet..."
-	docker-compose down -v
+	docker compose down -v
 	@echo "✅ Nettoyage terminé!"
 
 logs:
-	docker-compose logs -f
+	docker compose logs -f
 
 status:
 	@echo "📊 Statut des services:"
-	@docker-compose ps
+	@docker compose ps
 	@echo ""
 	@echo "🔌 Kafka Connect:"
 	@curl -s http://localhost:8083/ | jq . 2>/dev/null || echo "❌ Kafka Connect non disponible"
