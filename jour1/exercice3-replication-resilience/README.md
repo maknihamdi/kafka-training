@@ -75,7 +75,7 @@ Créez un topic `replicated-topic` avec 4 partitions et un replication factor de
 
 ```bash
 kafka-topics --create \
-  --bootstrap-server localhost:9092 \
+  --bootstrap-server kafka-1:19092 \
   --topic replicated-topic \
   --partitions 4 \
   --replication-factor 3
@@ -85,7 +85,7 @@ kafka-topics --create \
 
 ```bash
 kafka-topics --describe \
-  --bootstrap-server localhost:9092 \
+  --bootstrap-server kafka-1:19092 \
   --topic replicated-topic
 ```
 
@@ -135,7 +135,7 @@ Via Kafka UI:
 for i in {1..10}; do
   echo "msg-$i:{\"id\": $i, \"content\": \"Message $i\"}" | \
   kafka-console-producer \
-    --bootstrap-server localhost:9092 \
+    --bootstrap-server kafka-1:19092 \
     --topic replicated-topic \
     --property "parse.key=true" \
     --property "key.separator=:"
@@ -146,7 +146,7 @@ done
 
 ```bash
 kafka-console-consumer \
-  --bootstrap-server localhost:9092 \
+  --bootstrap-server kafka-1:19092 \
   --topic replicated-topic \
   --from-beginning \
   --property print.key=true \
@@ -190,7 +190,7 @@ Vérifiez l'état actuel du topic:
 
 ```bash
 kafka-topics --describe \
-  --bootstrap-server localhost:9092 \
+  --bootstrap-server kafka-1:19092 \
   --topic replicated-topic
 ```
 
@@ -211,7 +211,7 @@ Attendez 5-10 secondes, puis vérifiez les métadonnées:
 ```bash
 # Dans le shell de kafka-1
 kafka-topics --describe \
-  --bootstrap-server localhost:9092 \
+  --bootstrap-server kafka-1:19092 \
   --topic replicated-topic
 ```
 
@@ -235,7 +235,7 @@ Produisez de nouveaux messages:
 for i in {11..15}; do
   echo "msg-$i:{\"id\": $i, \"content\": \"Message $i with broker 3 down\"}" | \
   kafka-console-producer \
-    --bootstrap-server localhost:9092 \
+    --bootstrap-server kafka-1:19092 \
     --topic replicated-topic \
     --property "parse.key=true" \
     --property "key.separator=:"
@@ -254,7 +254,7 @@ Attendez 10-15 secondes et vérifiez:
 
 ```bash
 kafka-topics --describe \
-  --bootstrap-server localhost:9092 \
+  --bootstrap-server kafka-1:19092 \
   --topic replicated-topic
 ```
 
@@ -278,7 +278,7 @@ Pour qu'une partition devienne offline:
 
 ```bash
 kafka-topics --describe \
-  --bootstrap-server localhost:9092 \
+  --bootstrap-server kafka-1:19092 \
   --topic replicated-topic
 ```
 
@@ -304,7 +304,7 @@ make stop-broker-2
 make shell-3
 
 kafka-topics --describe \
-  --bootstrap-server localhost:9094 \
+  --bootstrap-server kafka-3:39092 \
   --topic replicated-topic
 ```
 
@@ -327,7 +327,7 @@ Essayez de produire un message:
 ```bash
 echo "msg-fail:{\"id\": 99, \"content\": \"This should fail\"}" | \
 kafka-console-producer \
-  --bootstrap-server localhost:9094 \
+  --bootstrap-server kafka-3:39092 \
   --topic replicated-topic \
   --property "parse.key=true" \
   --property "key.separator=:"
@@ -354,7 +354,7 @@ Attendez 15-20 secondes et vérifiez:
 make shell-1
 
 kafka-topics --describe \
-  --bootstrap-server localhost:9092 \
+  --bootstrap-server kafka-1:19092 \
   --topic replicated-topic
 ```
 
@@ -370,7 +370,7 @@ Créez un topic avec `min.insync.replicas=3`:
 
 ```bash
 kafka-topics --create \
-  --bootstrap-server localhost:9092 \
+  --bootstrap-server kafka-1:19092 \
   --topic strict-topic \
   --partitions 2 \
   --replication-factor 3 \
@@ -388,7 +388,7 @@ make stop-broker-3
 ```bash
 echo "test:value" | \
 kafka-console-producer \
-  --bootstrap-server localhost:9092 \
+  --bootstrap-server kafka-1:19092 \
   --topic strict-topic \
   --request-required-acks all \
   --property "parse.key=true" \

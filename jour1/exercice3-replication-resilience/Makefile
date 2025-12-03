@@ -51,7 +51,7 @@ status: ## Afficher le statut du cluster
 	@docker compose ps
 	@echo ""
 	@echo "📋 Topics disponibles:"
-	@docker exec kafka-1 kafka-topics --bootstrap-server localhost:9092 --list 2>/dev/null || echo "⚠️  Kafka n'est pas encore prêt ou aucun topic créé"
+	@docker exec kafka-1 kafka-topics --bootstrap-server kafka-1:19092 --list 2>/dev/null || echo "⚠️  Kafka n'est pas encore prêt ou aucun topic créé"
 
 shell-1: ## Ouvrir un shell dans kafka-1
 	@echo "🔧 Ouverture d'un shell dans kafka-1..."
