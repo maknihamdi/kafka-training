@@ -4,11 +4,11 @@ import com.kafka.training.common.model.EnrichedEvent;
 import com.kafka.training.common.model.Event;
 import com.kafka.training.common.model.UserProfile;
 import com.kafka.training.common.serde.JsonSerde;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.kstream.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,13 +27,21 @@ import org.springframework.stereotype.Component;
  * - Utiliser des fenêtres temporelles
  */
 @Component
-@Slf4j
-@RequiredArgsConstructor
 public class EventStreamTopology {
+
+    private static final Logger log = LoggerFactory.getLogger(EventStreamTopology.class);
 
     private final JsonSerde<Event> eventSerde;
     private final JsonSerde<UserProfile> userProfileSerde;
     private final JsonSerde<EnrichedEvent> enrichedEventSerde;
+
+    public EventStreamTopology(JsonSerde<Event> eventSerde,
+                               JsonSerde<UserProfile> userProfileSerde,
+                               JsonSerde<EnrichedEvent> enrichedEventSerde) {
+        this.eventSerde = eventSerde;
+        this.userProfileSerde = userProfileSerde;
+        this.enrichedEventSerde = enrichedEventSerde;
+    }
 
     @Autowired
     public void buildPipeline(StreamsBuilder streamsBuilder) {

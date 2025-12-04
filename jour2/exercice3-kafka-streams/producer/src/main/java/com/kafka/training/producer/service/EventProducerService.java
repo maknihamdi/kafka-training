@@ -2,8 +2,8 @@ package com.kafka.training.producer.service;
 
 import com.kafka.training.common.model.Event;
 import com.kafka.training.common.model.UserProfile;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
@@ -11,11 +11,14 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.CompletableFuture;
 
 @Service
-@RequiredArgsConstructor
-@Slf4j
 public class EventProducerService {
 
+    private static final Logger log = LoggerFactory.getLogger(EventProducerService.class);
     private final KafkaTemplate<String, Object> kafkaTemplate;
+
+    public EventProducerService(KafkaTemplate<String, Object> kafkaTemplate) {
+        this.kafkaTemplate = kafkaTemplate;
+    }
 
     private static final String USER_EVENTS_TOPIC = "user-events";
     private static final String USER_PROFILES_TOPIC = "user-profiles";

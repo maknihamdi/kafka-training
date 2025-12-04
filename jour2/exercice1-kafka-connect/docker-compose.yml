@@ -81,7 +81,7 @@ services:
       CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/share/confluent-hub-components"
       CONNECT_LOG4J_LOGGERS: org.apache.zookeeper=ERROR,org.I0Itec.zkclient=ERROR,org.reflections=ERROR
     volumes:
-      - ./data:/data
+      - ./kafka-connect-jdbc-10.7.4:/kafka-connect-jdbc-10.7.4
     networks:
       - kafka-network
     command:
@@ -89,7 +89,8 @@ services:
       - -c
       - |
         echo "Installing JDBC Connector..."
-        confluent-hub install --no-prompt confluentinc/kafka-connect-jdbc:10.7.4
+        mkdir /usr/share/confluent-hub-components/kafka-connect-jdbc-10.7.4
+        cp -r /kafka-connect-jdbc-10.7.4 /usr/share/confluent-hub-components/kafka-connect-jdbc-10.7.4/
         echo "Launching Kafka Connect..."
         /etc/confluent/docker/run
     healthcheck:

@@ -160,3 +160,7 @@ topology-describe:
 	@echo "   1. Copier la sortie ci-dessus"
 	@echo "   2. Aller sur: https://zz85.github.io/kafka-streams-viz/"
 	@echo "   3. Coller la description dans l'outil"
+
+show-topology:
+	curl -s http://localhost:8082/api/topology/describe
+	open "https://zz85.github.io/kafka-streams-viz/#topology=$$topology"

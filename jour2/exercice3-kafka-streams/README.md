@@ -307,14 +307,8 @@ La topologie Kafka Streams est exposée via une API REST sur le module streams.
 
 **Option 1 : API JSON**
 ```bash
-curl http://localhost:8082/api/topology
+make show-topology
 ```
-
-Retourne :
-- `topology` : Description textuelle de la topologie
-- `state` : État du KafkaStreams (RUNNING, REBALANCING, etc.)
-- `threads` : Nombre de threads
-- `subtopologies` : Nombre de sous-topologies
 
 **Option 2 : Description texte**
 ```bash

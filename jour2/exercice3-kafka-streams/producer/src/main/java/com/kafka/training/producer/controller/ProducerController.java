@@ -3,7 +3,6 @@ package com.kafka.training.producer.controller;
 import com.kafka.training.common.model.Event;
 import com.kafka.training.common.model.UserProfile;
 import com.kafka.training.producer.service.EventProducerService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,11 +12,14 @@ import java.util.Random;
 
 @RestController
 @RequestMapping("/api")
-@RequiredArgsConstructor
 public class ProducerController {
 
     private final EventProducerService producerService;
     private final Random random = new Random();
+
+    public ProducerController(EventProducerService producerService) {
+        this.producerService = producerService;
+    }
 
     private static final List<String> USER_IDS = Arrays.asList("user1", "user2", "user3", "user4", "user5");
     private static final List<String> EVENT_TYPES = Arrays.asList("PURCHASE", "LOGIN", "LOGOUT", "VIEW", "ADD_TO_CART");

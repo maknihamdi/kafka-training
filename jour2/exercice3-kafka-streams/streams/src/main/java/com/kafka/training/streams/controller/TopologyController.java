@@ -1,6 +1,5 @@
 package com.kafka.training.streams.controller;
 
-import lombok.RequiredArgsConstructor;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.TopologyDescription;
 import org.springframework.kafka.config.StreamsBuilderFactoryBean;
@@ -13,10 +12,13 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/topology")
-@RequiredArgsConstructor
 public class TopologyController {
 
     private final StreamsBuilderFactoryBean streamsBuilderFactoryBean;
+
+    public TopologyController(StreamsBuilderFactoryBean streamsBuilderFactoryBean) {
+        this.streamsBuilderFactoryBean = streamsBuilderFactoryBean;
+    }
 
     @GetMapping
     public Map<String, Object> getTopology() {
