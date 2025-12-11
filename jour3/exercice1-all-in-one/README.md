@@ -798,13 +798,6 @@ make topology-describe # Topologie texte
 | Prometheus | http://localhost:9090 | - |
 | Grafana | http://localhost:3000 | admin/admin |
 
-### Fichiers de Documentation
-
-- `QUICKSTART.md` - Démarrage rapide
-- `MONITORING.md` - Guide monitoring complet
-- `METRICS_REFERENCE.md` - Référence 482 métriques
-- `REFACTORING_SUMMARY.md` - Architecture détaillée
-- `PLAN_REFACTORING_ASSURANCE.md` - Plan de refactoring
 
 ---
 
