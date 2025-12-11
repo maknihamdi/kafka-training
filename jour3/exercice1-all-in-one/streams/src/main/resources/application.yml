@@ -1,0 +1,69 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: kafka-streams-app
+  kafka:
+    bootstrap-servers: localhost:9092
+    streams:
+      application-id: event-processor
+      properties:
+        default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+        default.value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+        commit.interval.ms: 1000
+        # Kafka Streams metrics recording level (INFO for maximum metrics)
+        metrics.recording.level: INFO
+        # State directory for RocksDB
+        state.dir: /tmp/kafka-streams
+
+# Actuator configuration for metrics exposure
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: always
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  metrics:
+    enable:
+      # Enable all default metrics
+      jvm: true
+      system: true
+      process: true
+      tomcat: true
+      logback: true
+    export:
+      prometheus:
+        enabled: true
+        step: 10s
+        descriptions: true
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+        kafka.stream.process.latency: true
+      percentiles:
+        kafka.stream.process.latency: 0.5,0.95,0.99,0.999
+      slo:
+        http.server.requests: 10ms,50ms,100ms,200ms,500ms,1s,2s,5s
+    tags:
+      application: ${spring.application.name}
+      environment: dev
+      stream-app-id: ${spring.kafka.streams.application-id}
+    # Enable Kafka Streams metrics
+    binders:
+      kafka:
+        enabled: true
+
+logging:
+  level:
+    com.kafka.training: DEBUG
+    org.apache.kafka.streams: INFO
+    org.apache.kafka: WARN
+    io.micrometer: INFO

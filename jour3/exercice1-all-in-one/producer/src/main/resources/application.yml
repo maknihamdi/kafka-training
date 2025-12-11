@@ -1,0 +1,64 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: kafka-producer
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      # Enable metrics
+      properties:
+        # Kafka client metrics recording level (INFO for maximum metrics)
+        metrics.recording.level: INFO
+    # Enable automatic Kafka metrics registration with Micrometer
+    listener:
+      observation-enabled: true
+    template:
+      observation-enabled: true
+
+# Actuator configuration for metrics exposure
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: always
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  metrics:
+    enable:
+      # Enable all default metrics
+      jvm: true
+      system: true
+      process: true
+      tomcat: true
+      logback: true
+    export:
+      prometheus:
+        enabled: true
+        step: 10s
+        descriptions: true
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+      slo:
+        http.server.requests: 10ms,50ms,100ms,200ms,500ms,1s,2s,5s
+    tags:
+      application: ${spring.application.name}
+      environment: dev
+    # Enable Kafka producer metrics
+    binders:
+      kafka:
+        enabled: true
+
+logging:
+  level:
+    com.kafka.training: DEBUG
+    org.apache.kafka: WARN
+    io.micrometer: INFO

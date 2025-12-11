@@ -1,0 +1,123 @@
+lowercaseOutputName: true
+lowercaseOutputLabelNames: true
+
+# Whitelist of ObjectNames to query
+whitelistObjectNames:
+  - "kafka.server:type=BrokerTopicMetrics,*"
+  - "kafka.server:type=ReplicaManager,*"
+  - "kafka.server:type=KafkaRequestHandlerPool,*"
+  - "kafka.server:type=FetcherStats,*"
+  - "kafka.network:type=RequestMetrics,*"
+  - "kafka.controller:type=KafkaController,*"
+  - "kafka.controller:type=ControllerStats,*"
+  - "kafka.log:type=LogFlushStats,*"
+  - "kafka.log:type=Log,*"
+  - "java.lang:type=OperatingSystem"
+  - "java.lang:type=Memory"
+  - "java.lang:type=GarbageCollector,*"
+  - "java.lang:type=Threading"
+
+rules:
+  # Broker Topic Metrics - Messages and Bytes
+  - pattern: kafka.server<type=BrokerTopicMetrics, name=(.+)PerSec, topic=(.+)><>Count
+    name: kafka_server_brokertopicmetrics_$1_total
+    labels:
+      topic: "$2"
+
+  - pattern: kafka.server<type=BrokerTopicMetrics, name=(.+)PerSec><>Count
+    name: kafka_server_brokertopicmetrics_$1_total
+
+  - pattern: kafka.server<type=BrokerTopicMetrics, name=(.+)PerSec, topic=(.+)><>OneMinuteRate
+    name: kafka_server_brokertopicmetrics_$1_rate
+    labels:
+      topic: "$2"
+
+  - pattern: kafka.server<type=BrokerTopicMetrics, name=(.+)PerSec><>OneMinuteRate
+    name: kafka_server_brokertopicmetrics_$1_rate
+
+  # Replica Manager Metrics
+  - pattern: kafka.server<type=ReplicaManager, name=(.+)><>Value
+    name: kafka_server_replicamanager_$1
+
+  - pattern: kafka.server<type=ReplicaManager, name=(.+)><>OneMinuteRate
+    name: kafka_server_replicamanager_$1_rate
+
+  # Request Metrics - Latency
+  - pattern: kafka.network<type=RequestMetrics, name=RequestsPerSec, request=(.+)><>OneMinuteRate
+    name: kafka_network_requestmetrics_requests_rate
+    labels:
+      request: "$1"
+
+  - pattern: kafka.network<type=RequestMetrics, name=TotalTimeMs, request=(.+)><>Mean
+    name: kafka_network_requestmetrics_totaltime_mean
+    labels:
+      request: "$1"
+
+  - pattern: kafka.network<type=RequestMetrics, name=TotalTimeMs, request=(.+)><>(\d+)thPercentile
+    name: kafka_network_requestmetrics_totaltime_percentile
+    labels:
+      request: "$1"
+      percentile: "$2"
+
+  - pattern: kafka.network<type=RequestMetrics, name=(.+), request=(.+)><>Mean
+    name: kafka_network_requestmetrics_$1_mean
+    labels:
+      request: "$2"
+
+  # Controller Metrics
+  - pattern: kafka.controller<type=KafkaController, name=(.+)><>Value
+    name: kafka_controller_kafkacontroller_$1
+
+  - pattern: kafka.controller<type=ControllerStats, name=(.+)><>OneMinuteRate
+    name: kafka_controller_controllerstats_$1_rate
+
+  # Log Flush Metrics
+  - pattern: kafka.log<type=LogFlushStats, name=(.+)><>(\d+)thPercentile
+    name: kafka_log_logflushstats_$1_percentile
+    labels:
+      percentile: "$2"
+
+  - pattern: kafka.log<type=LogFlushStats, name=(.+)><>Mean
+    name: kafka_log_logflushstats_$1_mean
+
+  - pattern: kafka.log<type=LogFlushStats, name=(.+)><>OneMinuteRate
+    name: kafka_log_logflushstats_$1_rate
+
+  # Log Size per Topic/Partition
+  - pattern: kafka.log<type=Log, name=Size, topic=(.+), partition=(\d+)><>Value
+    name: kafka_log_log_size
+    labels:
+      topic: "$1"
+      partition: "$2"
+
+  # Request Handler Pool
+  - pattern: kafka.server<type=KafkaRequestHandlerPool, name=(.+)><>(\w+)
+    name: kafka_server_requesthandlerpool_$1
+    labels:
+      metric_type: "$2"
+
+  # JVM Memory Metrics
+  - pattern: java.lang<type=Memory><HeapMemoryUsage>(\w+)
+    name: jvm_memory_heap_$1
+
+  - pattern: java.lang<type=Memory><NonHeapMemoryUsage>(\w+)
+    name: jvm_memory_nonheap_$1
+
+  # JVM Garbage Collection
+  - pattern: java.lang<type=GarbageCollector, name=(.+)><>CollectionCount
+    name: jvm_gc_collection_count
+    labels:
+      gc: "$1"
+
+  - pattern: java.lang<type=GarbageCollector, name=(.+)><>CollectionTime
+    name: jvm_gc_collection_time
+    labels:
+      gc: "$1"
+
+  # JVM Threading
+  - pattern: java.lang<type=Threading><>(\w+)
+    name: jvm_threads_$1
+
+  # JVM OS Metrics
+  - pattern: java.lang<type=OperatingSystem><>(\w+)
+    name: jvm_os_$1

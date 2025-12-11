@@ -1,0 +1,45 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: query-api
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+    timeout: 2000ms
+
+# Actuator configuration for metrics exposure
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: always
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  metrics:
+    enable:
+      jvm: true
+      system: true
+      process: true
+      tomcat: true
+    export:
+      prometheus:
+        enabled: true
+        step: 10s
+        descriptions: true
+    tags:
+      application: ${spring.application.name}
+      environment: dev
+
+logging:
+  level:
+    com.kafka.training: INFO
+    org.springframework.data.redis: INFO
